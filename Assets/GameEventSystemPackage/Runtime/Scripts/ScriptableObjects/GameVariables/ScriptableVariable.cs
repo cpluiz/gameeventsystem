@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace cpluiz.GameEventSystem
 {
-    public abstract class ScriptableVariable : ScriptableObject{}
-    public class ScriptableVariable<T> : ScriptableVariable
+    public abstract class CustomScriptableDrawer : ScriptableObject{}
+    public class ScriptableVariable<T> : CustomScriptableDrawer
     {
         [SerializeField] protected T defaultValue;
         public T DefaultValue {get{ return defaultValue;}}

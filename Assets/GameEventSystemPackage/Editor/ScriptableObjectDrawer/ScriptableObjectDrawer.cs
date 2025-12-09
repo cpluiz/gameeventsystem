@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using cpluiz.GameEventSystem;
 
-[CustomPropertyDrawer(typeof(GameEvent), true)][CustomPropertyDrawer(typeof(ScriptableVariable), true)]
+[CustomPropertyDrawer(typeof(CustomScriptableDrawer), true)]
 public class ScriptableObjectDrawer : PropertyDrawer
 {
     // Cached scriptable object editor

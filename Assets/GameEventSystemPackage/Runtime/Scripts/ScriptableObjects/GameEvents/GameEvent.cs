@@ -8,7 +8,7 @@ using System;
 namespace cpluiz.GameEventSystem
 {
     [CreateAssetMenu(fileName = "GameEvent", menuName = "GameEvent")]
-    public class GameEvent : ScriptableObject
+    public class GameEvent : CustomScriptableDrawer
     {
         #region Public
         [VoidButton("RaiseVoid", "Raise Void")] public int debugVoid;
