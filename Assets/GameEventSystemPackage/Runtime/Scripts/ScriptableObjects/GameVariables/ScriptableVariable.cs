@@ -7,7 +7,7 @@ namespace cpluiz.GameEventSystem
         [SerializeField] protected T defaultValue;
         public T DefaultValue {get{ return defaultValue;}}
         [SerializeField] protected T value;
-        [SerializeField] public T Value {
+        public T Value {
             get{return this.value;}
             set{
                 this.value = value;
