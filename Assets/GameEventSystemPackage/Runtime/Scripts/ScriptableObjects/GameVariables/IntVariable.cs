@@ -1,7 +1,9 @@
 using UnityEngine;
-
-[CreateAssetMenu(menuName = "GameVariable/IntVariable", fileName = "IntVariable")]
-public class IntVariable : ScriptableVariable<int>
+namespace cpluiz.GameEventSystem
 {
-    
+    [CreateAssetMenu(menuName = "GameVariable/IntVariable", fileName = "IntVariable")]
+    public class IntVariable : ScriptableVariable<int>
+    {
+        
+    }
 }
