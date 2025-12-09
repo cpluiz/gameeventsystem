@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.Events;
+using GameEventSystemInterfaces;
 
-public class GameEventListenerBool : MonoBehaviour, IGameEventListener
+namespace cpluiz.GameEventSystem
 {
-    public GameEvent Event;
-    public UnityEvent<bool> Response;
-
-    private void OnEnable()
+    public class GameEventListenerBool : MonoBehaviour, IGameEventListener
     {
-        Event.RegisterListener<GameEventListenerBool>(this);
-    }
+        public GameEvent Event;
+        public UnityEvent<bool> Response;
 
-    public void OnEventRaised(bool parameter)
-    {
-        Response.Invoke(parameter);
+        private void OnEnable()
+        {
+            Event.RegisterListener<GameEventListenerBool>(this);
+        }
+
+        public void OnEventRaised(bool parameter)
+        {
+            Response.Invoke(parameter);
+        }
     }
 }

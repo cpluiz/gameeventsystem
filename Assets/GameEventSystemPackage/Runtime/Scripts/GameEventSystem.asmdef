@@ -1,0 +1,16 @@
+{
+    "name": "cpluiz.GameEventSystem",
+    "rootNamespace": "cpluiz",
+    "references": [
+        "GUID:b71c86da0df176940bb15648ee34955e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

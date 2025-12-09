@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public interface IGameEventListener
-{
-    public void OnEventRaised<T>(T param)
+namespace GameEventSystemInterfaces{
+    public interface IGameEventListener
     {
-        
-    }
+        public void OnEventRaised<T>(T param)
+        {
+            
+        }
 
+    }
 }
