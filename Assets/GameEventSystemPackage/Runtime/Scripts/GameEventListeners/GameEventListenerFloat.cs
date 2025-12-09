@@ -1,22 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
-using GameEventSystemInterfaces;
+using cpluiz.GameEventSystemInterfaces;
 
 namespace cpluiz.GameEventSystem
 {
-    public class GameEventListenerFloat : MonoBehaviour, IGameEventListener
+    public class GameEventListenerFloat : GameEventListener<float>
     {
-        public GameEvent Event;
-        public UnityEvent<float> Response;
-
-        private void OnEnable()
-        {
-            Event.RegisterListener<GameEventListenerFloat>(this);
-        }
-
-        public void OnEventRaised(float parameter)
-        {
-            Response.Invoke(parameter);
-        }
+        
     }
 }

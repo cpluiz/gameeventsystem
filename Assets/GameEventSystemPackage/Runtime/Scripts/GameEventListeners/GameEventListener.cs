@@ -4,23 +4,23 @@ using cpluiz.GameEventSystemInterfaces;
 
 namespace cpluiz.GameEventSystem
 {
-    public class GameEventListenerVoid : MonoBehaviour, IGameEventListener
+    public class GameEventListener<T> : MonoBehaviour, IGameEventListener
     {
         public GameEvent Event;
-        public UnityEvent Response;
+        public UnityEvent<T> Response;
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             Event.RegisterListener(this);
         }
-        private void OnDisable()
+        protected void OnDisable()
         {
             Event.UnregisterListener(this);
         }
 
-        public void OnEventRaised()
+        public virtual void OnEventRaised(T parameter)
         {
-            Response.Invoke();
+            Response?.Invoke(parameter);
         }
     }
 }
