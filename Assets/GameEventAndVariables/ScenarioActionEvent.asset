@@ -13,7 +13,14 @@ MonoBehaviour:
   m_Name: ScenarioActionEvent
   m_EditorClassIdentifier: 
   debugVoid: 0
-  debugInt: 3
+  debugInt: 0
   debugFloat: 0
-  debugString: 
   debugBool: 0
+  debugString: teste
+  debugObject:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -39,172 +39,88 @@ namespace cpluiz.GameEventSystemEditor{
         }
     }
 
+    [CustomPropertyDrawer(typeof(RaiseButtonAttribute))]
+    public class GameEventRaiser : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            RaiseButtonAttribute buttonAttribute = attribute as RaiseButtonAttribute;
+
+            float fieldWidth = position.width;
+            float columWidth = fieldWidth / buttonAttribute.MaxColumnSize;
+            float fieldSize = buttonAttribute.PropertyColumnSize * columWidth;
+            float buttonSize = (buttonAttribute.MaxColumnSize - buttonAttribute.PropertyColumnSize) * columWidth;
+
+            Rect propertyRect = new Rect(position.x, position.y, fieldSize , EditorGUIUtility.singleLineHeight);
+            Rect buttonRect = new Rect(position.x + fieldSize, position.y, buttonSize, EditorGUIUtility.singleLineHeight);
+            
+            EditorGUI.PropertyField(propertyRect, property, GUIContent.none, true);
+
+            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
+            {
+                object targetObject = property.serializedObject.targetObject;
+
+                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(buttonAttribute.ObjectType.GetType());
+                if(method != null)
+                {
+                    switch (buttonAttribute.ObjectType)
+                    {
+                        case int intType:
+                            method.Invoke(targetObject, new object[]{property.intValue});
+                            break;
+                        case float floatType:
+                            method.Invoke(targetObject, new object[]{property.floatValue});
+                            break;
+                        case string stringType:
+                            method.Invoke(targetObject, new object[]{property.stringValue});
+                            break;
+                        case bool boolType:
+                            method.Invoke(targetObject, new object[]{property.boolValue});
+                            break;
+                        case object objectType:
+                            method.Invoke(targetObject, new object[]{targetObject});
+                            break;
+                        default:
+                            Debug.LogError($"Method with type {buttonAttribute.ObjectType.GetType()} don't have a implementation");
+                            break;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
+                }
+
+            }
+        }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
+    }
+
     [CustomPropertyDrawer(typeof(RaiseIntAttribute))]
-    public class GameEventRaiserInt : PropertyDrawer 
+    public class GameEventRaiserInt : GameEventRaiser
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            RaiseIntAttribute buttonAttribute = attribute as RaiseIntAttribute;
-
-            Rect buttonRect = new Rect(position.x + (position.width / 2), position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-            Rect propertyRect = new Rect(position.x, position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none);
-
-            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
-            {
-                object targetObject = property.serializedObject.targetObject;
-
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(typeof(int));
-                if(method != null)
-                {
-                    method.Invoke(targetObject, new object[]{property.intValue});
-                }
-                else
-                {
-                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
-                }
-
-            }
-        }
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
+        
     }
-
     [CustomPropertyDrawer(typeof(RaiseFloatAttribute))]
-    public class GameEventRaiserFloat : PropertyDrawer 
+    public class GameEventRaiserFloat : GameEventRaiser
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            RaiseFloatAttribute buttonAttribute = attribute as RaiseFloatAttribute;
-
-            Rect buttonRect = new Rect(position.x + (position.width / 2), position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-            Rect propertyRect = new Rect(position.x, position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none);
-
-            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
-            {
-                object targetObject = property.serializedObject.targetObject;
-
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(typeof(float));
-                if(method != null)
-                {
-                    method.Invoke(targetObject, new object[]{property.floatValue});
-                }
-                else
-                {
-                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
-                }
-
-            }
-        }
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
+        
     }
-
-    [CustomPropertyDrawer(typeof(RaiseObjectAttribute))]
-    public class GameEventRaiserObject : PropertyDrawer 
-    {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            RaiseObjectAttribute buttonAttribute = attribute as RaiseObjectAttribute;
-
-            Rect buttonRect = new Rect(position.x + (position.width / 2), position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-            Rect propertyRect = new Rect(position.x, position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none);
-
-            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
-            {
-                object targetObject = property.serializedObject.targetObject;
-
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(typeof(object));
-                if(method != null)
-                {
-                    method.Invoke(targetObject, new object[]{property.objectReferenceValue});
-                }
-                else
-                {
-                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
-                }
-
-            }
-        }
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
-    }
-
     [CustomPropertyDrawer(typeof(RaiseStringAttribute))]
-    public class GameEventRaiserString : PropertyDrawer 
+    public class GameEventRaiserString : GameEventRaiser
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            RaiseStringAttribute buttonAttribute = attribute as RaiseStringAttribute;
-
-            Rect buttonRect = new Rect(position.x + (position.width / 2), position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-            Rect propertyRect = new Rect(position.x, position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none);
-
-            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
-            {
-                object targetObject = property.serializedObject.targetObject;
-
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(typeof(string));
-                if(method != null)
-                {
-                    method.Invoke(targetObject, new object[]{property.stringValue});
-                }
-                else
-                {
-                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
-                }
-
-            }
-        }
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
+        
     }
     [CustomPropertyDrawer(typeof(RaiseBoolAttribute))]
-    public class GameEventRaiserBool : PropertyDrawer 
+    public class GameEventRaiserBool : GameEventRaiser
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            RaiseBoolAttribute buttonAttribute = attribute as RaiseBoolAttribute;
-
-            Rect buttonRect = new Rect(position.x + (position.width / 2), position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-            Rect propertyRect = new Rect(position.x, position.y, position.width / 2, EditorGUIUtility.singleLineHeight);
-
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none);
-
-            if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
-            {
-                object targetObject = property.serializedObject.targetObject;
-
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(typeof(bool));
-                if(method != null)
-                {
-                    method.Invoke(targetObject, new object[]{property.intValue});
-                }
-                else
-                {
-                    Debug.LogWarning($"Method '{buttonAttribute.MethodName}' not found");
-                }
-
-            }
-        }
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
+        
+    }
+    [CustomPropertyDrawer(typeof(RaiseObjectAttribute))]
+    public class GameEventRaiserObject : GameEventRaiser
+    {
+        
     }
 }
