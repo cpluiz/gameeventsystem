@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace cpluiz.GameEventSystem
 {
-    public class ScriptableVariable<T> : ScriptableObject
+    public abstract class ScriptableVariable : ScriptableObject{}
+    public class ScriptableVariable<T> : ScriptableVariable
     {
         [SerializeField] protected T defaultValue;
         public T DefaultValue {get{ return defaultValue;}}
