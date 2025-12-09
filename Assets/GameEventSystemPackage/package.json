@@ -1,0 +1,24 @@
+{
+  "name": "com.cpluiz.gameeventsystem",
+  "version": "0.0.1",
+  "displayName": "Game Event System",
+  "description": "A simple GameEvent and GameVariable system",
+  "unity": "6000.0",
+  "unityRelease": "63f1",
+  "documentationUrl": "https://todo.com/",
+  "changelogUrl": "https://todo.com/changelog.html",
+  "licensesUrl": "https://todo.com/licensing.html",
+  "dependencies": {
+    
+ },
+ "keywords": [
+    "gameevent",
+    "gamevariable",
+    "eventsystem"
+  ],
+  "author": {
+    "name": "'CP' Luiz Fernando de Lira",
+    "email": "luiz.lira@fatec.sp.gov.br",
+    "url": "https://www.linkedin.com/in/luizflira/"
+  }
+}
