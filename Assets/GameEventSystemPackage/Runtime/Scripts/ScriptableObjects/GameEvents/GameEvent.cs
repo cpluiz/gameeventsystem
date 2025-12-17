@@ -216,7 +216,7 @@ namespace cpluiz.GameEventSystem
         {
             ButtonLabel = buttonLabel;
             PropertyColumnSize = columnSize;
-            base.ObjectType = new object();
+            base.ObjectType = new UnityEngine.Object();
         }
     }
 }

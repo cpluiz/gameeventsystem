@@ -16,11 +16,5 @@ MonoBehaviour:
   debugInt: 0
   debugFloat: 0
   debugBool: 0
-  debugString: teste
-  debugObject:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  debugString: 
+  testObject: {fileID: 0}

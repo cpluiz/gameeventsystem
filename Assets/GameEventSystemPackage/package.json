@@ -9,9 +9,9 @@
   "changelogUrl": "https://todo.com/changelog.html",
   "licensesUrl": "https://todo.com/licensing.html",
   "dependencies": {
-    
- },
- "keywords": [
+    "com.yasirkula.assetusagedetector": "https://github.com/yasirkula/UnityAssetUsageDetector.git#v2.5.7"
+  },
+  "keywords": [
     "gameevent",
     "gamevariable",
     "eventsystem"

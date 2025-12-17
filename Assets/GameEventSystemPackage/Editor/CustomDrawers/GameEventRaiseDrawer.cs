@@ -42,6 +42,7 @@ namespace cpluiz.GameEventSystemEditor{
     [CustomPropertyDrawer(typeof(RaiseButtonAttribute))]
     public class GameEventRaiser : PropertyDrawer
     {
+        protected UnityEngine.Object targetObject = null;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             RaiseButtonAttribute buttonAttribute = attribute as RaiseButtonAttribute;
@@ -54,12 +55,14 @@ namespace cpluiz.GameEventSystemEditor{
             Rect propertyRect = new Rect(position.x, position.y, fieldSize , EditorGUIUtility.singleLineHeight);
             Rect buttonRect = new Rect(position.x + fieldSize, position.y, buttonSize, EditorGUIUtility.singleLineHeight);
             
-            EditorGUI.PropertyField(propertyRect, property, GUIContent.none, true);
+            if(buttonAttribute.ObjectType.GetType() != typeof(UnityEngine.Object))
+                EditorGUI.PropertyField(propertyRect, property, GUIContent.none, true);
+            else
+                targetObject = (UnityEngine.Object)EditorGUI.ObjectField(propertyRect, targetObject, typeof(UnityEngine.Object), true);
 
             if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
             {
                 object targetObject = property.serializedObject.targetObject;
-
                 MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(buttonAttribute.ObjectType.GetType());
                 if(method != null)
                 {
@@ -77,7 +80,7 @@ namespace cpluiz.GameEventSystemEditor{
                         case bool boolType:
                             method.Invoke(targetObject, new object[]{property.boolValue});
                             break;
-                        case object objectType:
+                        case UnityEngine.Object objectType:
                             method.Invoke(targetObject, new object[]{targetObject});
                             break;
                         default:
