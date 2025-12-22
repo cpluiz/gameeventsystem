@@ -12,12 +12,12 @@ namespace cpluiz.GameEventSystem
     {
         #region Public
         [VoidButton("RaiseVoid", "Raise Void")] public int debugVoid;
-        [RaiseInt(columnSize:2)] public int debugInt;
-        [RaiseFloat(columnSize:2)] public float debugFloat;
-        [RaiseBool(columnSize:1)] public bool debugBool;
-        [RaiseString(columnSize:5)] public string debugString;
+        [RaiseBool(columnSize:4)] public bool debugBool;
+        [RaiseInt(columnSize:10)] public int debugInt;
+        [RaiseFloat(columnSize:10)] public float debugFloat;
+        [RaiseString(columnSize:60)] public string debugString;
         // TODO - Make object drawer works
-        [RaiseObject(columnSize:5)] public UnityEngine.Object testObject;
+        [RaiseObject(columnSize:60)] public UnityEngine.Object testObject;
         #endregion Public
 
         #region Private variables
@@ -29,7 +29,7 @@ namespace cpluiz.GameEventSystem
         private List<GameEventListenerObject> objectListeners = new List<GameEventListenerObject>();
         #endregion Private variables
 
-        public void RaiseVoid()
+        public void Raise()
         {
             for(int i = voidListeners.Count -1; i >= 0; i--)
             {
@@ -153,13 +153,13 @@ namespace cpluiz.GameEventSystem
     {
         public string MethodName { get { return "Raise"; } }
         public string ButtonLabel { get; protected set; }
-        public int MaxColumnSize { get{ return 10; } }
+        public int MaxColumnSize { get{ return 100; } }
         public int PropertyColumnSize{ get; protected set; }
         public object ObjectType;
-        public RaiseButtonAttribute(string buttonLabel = "RaiseButton", int columnSize = 5)
+        public RaiseButtonAttribute(string buttonLabel = "RaiseButton", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
         }
     }
 
@@ -168,10 +168,10 @@ namespace cpluiz.GameEventSystem
     public class RaiseIntAttribute : RaiseButtonAttribute
     {
         new public int ObjectType;
-        public RaiseIntAttribute(string buttonLabel = "Raise Int", int columnSize = 5)
+        public RaiseIntAttribute(string buttonLabel = "Raise Int", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = 0;
         }
     }
@@ -179,10 +179,10 @@ namespace cpluiz.GameEventSystem
     public class RaiseFloatAttribute : RaiseButtonAttribute
     {
         new public float ObjectType;
-        public RaiseFloatAttribute(string buttonLabel = "Raise Float", int columnSize = 5)
+        public RaiseFloatAttribute(string buttonLabel = "Raise Float", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = 0.4f;
         }
     }
@@ -190,10 +190,10 @@ namespace cpluiz.GameEventSystem
     public class RaiseStringAttribute  : RaiseButtonAttribute
     {
         new public string ObjectType;
-        public RaiseStringAttribute(string buttonLabel = "Raise String", int columnSize = 5)
+        public RaiseStringAttribute(string buttonLabel = "Raise String", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = "";
         }
     }
@@ -201,10 +201,10 @@ namespace cpluiz.GameEventSystem
     public class RaiseBoolAttribute  : RaiseButtonAttribute
     {
         new public bool ObjectType;
-        public RaiseBoolAttribute(string buttonLabel = "Raise Bool", int columnSize = 5)
+        public RaiseBoolAttribute(string buttonLabel = "Raise Bool", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = false;
         }
     }
@@ -212,10 +212,10 @@ namespace cpluiz.GameEventSystem
     [System.Serializable]
     public class RaiseObjectAttribute  : RaiseButtonAttribute
     {
-        public RaiseObjectAttribute(string buttonLabel = "Raise Object", int columnSize = 5)
+        public RaiseObjectAttribute(string buttonLabel = "Raise Object", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
-            PropertyColumnSize = columnSize;
+            PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = new UnityEngine.Object();
         }
     }
