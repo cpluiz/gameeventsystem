@@ -12,7 +12,7 @@ namespace cpluiz.GameEventSystem
     public class GameEvent : CustomScriptableDrawer
     {
         #region Public
-        [VoidButton("RaiseVoid", "Raise Void")] public int debugVoid;
+        [VoidButton("Raise", "Raise Void")] public int debugVoid;
         [RaiseBool(columnSize:4)] public bool debugBool;
         [RaiseInt(columnSize:10)] public int debugInt;
         [RaiseFloat(columnSize:10)] public float debugFloat;

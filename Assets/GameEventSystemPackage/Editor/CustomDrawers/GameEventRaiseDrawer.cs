@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using cpluiz.GameEventSystem;
+using System.Linq;
 
 namespace cpluiz.GameEventSystemEditor{
     //GameEventRaiseDrawer
@@ -21,7 +22,7 @@ namespace cpluiz.GameEventSystemEditor{
             {
                 object targetObject = property.serializedObject.targetObject;
 
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName);
+                MethodInfo method = targetObject.GetType().GetMethods().Single(m => m.Name == buttonAttribute.MethodName && m.GetParameters().Length == 0);
                 if(method != null)
                 {
                     method.Invoke(targetObject, null);
@@ -63,7 +64,7 @@ namespace cpluiz.GameEventSystemEditor{
             if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
             {
                 object targetObject = property.serializedObject.targetObject;
-                MethodInfo method = targetObject.GetType().GetMethod(buttonAttribute.MethodName).MakeGenericMethod(buttonAttribute.ObjectType.GetType());
+                MethodInfo method = targetObject.GetType().GetMethods().Single( m => m.Name == buttonAttribute.MethodName && m.GetGenericArguments().Length == 1 && m.GetParameters().Length == 1 ).MakeGenericMethod(buttonAttribute.ObjectType.GetType());
                 if(method != null)
                 {
                     switch (buttonAttribute.ObjectType)
