@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Android.Gradle;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using cpluiz.GameEventSystemInterfaces;
 using System;
 
@@ -27,6 +28,7 @@ namespace cpluiz.GameEventSystem
         private List<GameEventListenerFloat> floatListeners = new List<GameEventListenerFloat>();
         private List<GameEventListenerString> stringListeners = new List<GameEventListenerString>();
         private List<GameEventListenerObject> objectListeners = new List<GameEventListenerObject>();
+        private List<GameEventListenerInputCallbackContext> inputCallbackListeners = new List<GameEventListenerInputCallbackContext>();
         #endregion Private variables
 
         public void Raise()
@@ -70,9 +72,19 @@ namespace cpluiz.GameEventSystem
                         if(objectListeners[i] != null) objectListeners[i].OnEventRaised(objectParameter);
                     }
                     break;
+                case InputAction.CallbackContext contextParameter:
+                    RaiseInputCallbackContext(contextParameter);
+                    break;
                 default:
                     Debug.LogError($"Type for {parameter.GetType()} cannot be processed");
                     break;
+            }
+        }
+        public void RaiseInputCallbackContext(InputAction.CallbackContext contextParameter)
+        {
+            for(int i = inputCallbackListeners.Count -1; i >= 0; i--)
+            {
+                if(inputCallbackListeners[i] != null) inputCallbackListeners[i].OnEventRaised(contextParameter);
             }
         }
         public void RegisterListener<T>(T listener)
@@ -96,6 +108,9 @@ namespace cpluiz.GameEventSystem
                     break;
                 case GameEventListenerString stringListener:
                     if(!stringListeners.Contains(stringListener)) stringListeners.Add(stringListener);
+                    break;
+                case GameEventListenerInputCallbackContext inputCallbackListener:
+                    if(!inputCallbackListeners.Contains(inputCallbackListener)) inputCallbackListeners.Add(inputCallbackListener);
                     break;
                 default:
                     //TODO change to a proper debug system
@@ -124,6 +139,9 @@ namespace cpluiz.GameEventSystem
                     break;
                 case GameEventListenerString stringListener:
                     stringListeners.Remove(stringListener);
+                    break;
+                case GameEventListenerInputCallbackContext inputCallbackListener:
+                    inputCallbackListeners.Remove(inputCallbackListener);
                     break;
                 default:
                     //TODO change to a proper debug system

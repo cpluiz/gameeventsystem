@@ -2,7 +2,8 @@
     "name": "cpluiz.GameEventSystem",
     "rootNamespace": "cpluiz",
     "references": [
-        "GUID:b71c86da0df176940bb15648ee34955e"
+        "GUID:b71c86da0df176940bb15648ee34955e",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
