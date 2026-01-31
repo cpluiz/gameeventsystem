@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ScenarioActionEvent
   m_EditorClassIdentifier: 
   debugVoid: 0
+  debugBool: 0
   debugInt: 0
   debugFloat: 0
-  debugBool: 0
-  debugString: 
+  debugString: test
   testObject: {fileID: 0}

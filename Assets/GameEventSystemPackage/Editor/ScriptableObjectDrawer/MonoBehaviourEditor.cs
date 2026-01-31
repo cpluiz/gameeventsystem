@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -6,3 +7,4 @@ using UnityEditor;
 public class MonoBehaviourEditor : Editor
 {
 }
+#endif

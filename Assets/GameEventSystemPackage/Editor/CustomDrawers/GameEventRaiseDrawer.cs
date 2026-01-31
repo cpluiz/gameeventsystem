@@ -1,9 +1,7 @@
-using System;
+#if UNITY_EDITOR
 using System.Reflection;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 using cpluiz.GameEventSystem;
 using System.Linq;
 
@@ -128,3 +126,4 @@ namespace cpluiz.GameEventSystemEditor{
         
     }
 }
+#endif
