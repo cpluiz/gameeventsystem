@@ -163,6 +163,7 @@ namespace cpluiz.GameEventSystem
             }
         }
     }
+    #if UNITY_EDITOR
 
     [System.Serializable]
     public class VoidButtonAttribute : PropertyAttribute
@@ -242,7 +243,6 @@ namespace cpluiz.GameEventSystem
     [System.Serializable]
     public class RaiseTransformAttribute  : RaiseButtonAttribute
     {
-        [SerializeReference] new public Transform ObjectType;
         public RaiseTransformAttribute(string buttonLabel = "Raise Transform", int columnSize = 50)
         {
             ButtonLabel = buttonLabel;
@@ -261,4 +261,5 @@ namespace cpluiz.GameEventSystem
             base.ObjectType = new UnityEngine.Object();
         }
     }
+    #endif
 }
