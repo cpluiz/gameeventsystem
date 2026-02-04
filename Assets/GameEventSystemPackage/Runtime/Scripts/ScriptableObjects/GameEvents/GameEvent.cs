@@ -10,6 +10,7 @@ namespace cpluiz.GameEventSystem
     public class GameEvent : CustomScriptableDrawer
     {
         #region Public
+        #if UNITY_EDITOR
         [VoidButton("Raise", "Raise Void")] public int debugVoid;
         [RaiseBool(columnSize:4)] public bool debugBool;
         [RaiseInt(columnSize:10)] public int debugInt;
@@ -18,6 +19,7 @@ namespace cpluiz.GameEventSystem
         // TODO - Make object drawer works
         [RaiseTransform(columnSize:60)][SerializeField] public Transform debugTransform;
         [RaiseObject(columnSize:60)] public UnityEngine.Object debugObject;
+        #endif
         #endregion Public
 
         #region Private variables
