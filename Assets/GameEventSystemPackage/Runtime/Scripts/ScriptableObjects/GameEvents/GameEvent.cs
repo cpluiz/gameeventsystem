@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using cpluiz.GameEventSystemInterfaces;
+using UnityEditor;
 
 namespace cpluiz.GameEventSystem
 {
@@ -15,7 +16,8 @@ namespace cpluiz.GameEventSystem
         [RaiseFloat(columnSize:10)] public float debugFloat;
         [RaiseString(columnSize:60)] public string debugString;
         // TODO - Make object drawer works
-        [RaiseObject(columnSize:60)] public UnityEngine.Object testObject;
+        [RaiseTransform(columnSize:60)][SerializeField] public Transform debugTransform;
+        [RaiseObject(columnSize:60)] public UnityEngine.Object debugObject;
         #endregion Public
 
         #region Private variables
@@ -24,6 +26,7 @@ namespace cpluiz.GameEventSystem
         private List<GameEventListenerInt> intListeners = new List<GameEventListenerInt>();
         private List<GameEventListenerFloat> floatListeners = new List<GameEventListenerFloat>();
         private List<GameEventListenerString> stringListeners = new List<GameEventListenerString>();
+        private List<GameEventListenerTransform> transformListeners = new List<GameEventListenerTransform>();
         private List<GameEventListenerObject> objectListeners = new List<GameEventListenerObject>();
         private List<GameEventListenerInputCallbackContext> inputCallbackListeners = new List<GameEventListenerInputCallbackContext>();
         #endregion Private variables
@@ -37,6 +40,7 @@ namespace cpluiz.GameEventSystem
         }
         public void Raise<T>(T parameter)
         {
+            if(parameter == null) return;
             switch (parameter)
             {
                 case int intParameter:
@@ -61,6 +65,12 @@ namespace cpluiz.GameEventSystem
                     for(int i = boolListeners.Count -1; i >= 0; i--)
                     {
                         if(boolListeners[i] != null) boolListeners[i].OnEventRaised(boolParameter);
+                    }
+                    break;
+                case Transform transformParameter:
+                    for(int i = transformListeners.Count -1; i >= 0; i--)
+                    {
+                        if(transformListeners[i] != null) transformListeners[i].OnEventRaised(transformParameter);
                     }
                     break;
                 case UnityEngine.Object objectParameter:
@@ -106,6 +116,9 @@ namespace cpluiz.GameEventSystem
                 case GameEventListenerString stringListener:
                     if(!stringListeners.Contains(stringListener)) stringListeners.Add(stringListener);
                     break;
+                case GameEventListenerTransform transformListener:
+                    if(!transformListeners.Contains(transformListener)) transformListeners.Add(transformListener);
+                    break;
                 case GameEventListenerInputCallbackContext inputCallbackListener:
                     if(!inputCallbackListeners.Contains(inputCallbackListener)) inputCallbackListeners.Add(inputCallbackListener);
                     break;
@@ -136,6 +149,9 @@ namespace cpluiz.GameEventSystem
                     break;
                 case GameEventListenerString stringListener:
                     stringListeners.Remove(stringListener);
+                    break;
+                case GameEventListenerTransform transformListener:
+                    transformListeners.Remove(transformListener);
                     break;
                 case GameEventListenerInputCallbackContext inputCallbackListener:
                     inputCallbackListeners.Remove(inputCallbackListener);
@@ -221,6 +237,17 @@ namespace cpluiz.GameEventSystem
             ButtonLabel = buttonLabel;
             PropertyColumnSize = Mathf.Abs(columnSize);
             base.ObjectType = false;
+        }
+    }
+    [System.Serializable]
+    public class RaiseTransformAttribute  : RaiseButtonAttribute
+    {
+        [SerializeReference] new public Transform ObjectType;
+        public RaiseTransformAttribute(string buttonLabel = "Raise Transform", int columnSize = 50)
+        {
+            ButtonLabel = buttonLabel;
+            PropertyColumnSize = Mathf.Abs(columnSize);
+            base.ObjectType = Editor.FindFirstObjectByType<Transform>();
         }
     }
 

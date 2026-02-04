@@ -41,7 +41,7 @@ namespace cpluiz.GameEventSystemEditor{
     [CustomPropertyDrawer(typeof(RaiseButtonAttribute))]
     public class GameEventRaiser : PropertyDrawer
     {
-        protected UnityEngine.Object targetObject = null;
+        protected UnityEngine.Object target = null;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             RaiseButtonAttribute buttonAttribute = attribute as RaiseButtonAttribute;
@@ -53,11 +53,12 @@ namespace cpluiz.GameEventSystemEditor{
 
             Rect propertyRect = new Rect(position.x, position.y, fieldSize , EditorGUIUtility.singleLineHeight);
             Rect buttonRect = new Rect(position.x + fieldSize, position.y, buttonSize, EditorGUIUtility.singleLineHeight);
-            
-            if(buttonAttribute.ObjectType.GetType() != typeof(UnityEngine.Object))
+            if(buttonAttribute.ObjectType.GetType() == typeof(Transform))
+                target = (Transform)EditorGUI.ObjectField(propertyRect, target, typeof(Transform), true);
+            else if(buttonAttribute.ObjectType.GetType() != typeof(UnityEngine.Object))
                 EditorGUI.PropertyField(propertyRect, property, GUIContent.none, true);
             else
-                targetObject = (UnityEngine.Object)EditorGUI.ObjectField(propertyRect, targetObject, typeof(UnityEngine.Object), true);
+                target = (UnityEngine.Object)EditorGUI.ObjectField(propertyRect, target, typeof(UnityEngine.Object), true);
 
             if(GUI.Button(buttonRect, buttonAttribute.ButtonLabel))
             {
@@ -79,8 +80,11 @@ namespace cpluiz.GameEventSystemEditor{
                         case bool boolType:
                             method.Invoke(targetObject, new object[]{property.boolValue});
                             break;
+                        case Transform transformType:
+                            method.Invoke(targetObject, new object[]{target as Transform});
+                            break;
                         case UnityEngine.Object objectType:
-                            method.Invoke(targetObject, new object[]{targetObject});
+                            method.Invoke(targetObject, new object[]{target});
                             break;
                         default:
                             Debug.LogError($"Method with type {buttonAttribute.ObjectType.GetType()} don't have a implementation");
@@ -117,6 +121,11 @@ namespace cpluiz.GameEventSystemEditor{
     }
     [CustomPropertyDrawer(typeof(RaiseBoolAttribute))]
     public class GameEventRaiserBool : GameEventRaiser
+    {
+        
+    }
+    [CustomPropertyDrawer(typeof(RaiseTransformAttribute))]
+    public class GameEventRaiserTransform : GameEventRaiser
     {
         
     }

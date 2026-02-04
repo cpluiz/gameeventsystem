@@ -20,9 +20,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         Debug.Log(playerHP.Value);
     }
+    public void DebugTransform(Transform transform)
+    {
+        Debug.Log(transform.name);
+    }
     public void DebugObject(object test)
     {
-        Debug.Log(test.GetType());
+        Camera testObject = test as Camera;
+        Debug.Log($"Object {testObject.name} with type {test.GetType()}");
     }
     public void DebugString(string receivedString)
     {
